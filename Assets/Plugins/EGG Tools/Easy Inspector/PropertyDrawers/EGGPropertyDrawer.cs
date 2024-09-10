@@ -21,7 +21,7 @@ namespace EGG.EasyInspector
         {
             this.property = property;
 
-            var allModifers = GetModifierAttributes(property);
+            var allModifers = property.GetModifierAttributes();
             modifierAttributes = GetValidModifiers(allModifers);
 
             return EGGPropertyGUI();
@@ -29,20 +29,6 @@ namespace EGG.EasyInspector
 
         protected virtual ModifierType[] InvalidModifiers => null;
         protected abstract VisualElement EGGPropertyGUI();
-
-        private List<ModifierAttribute> GetModifierAttributes(SerializedProperty property)
-        {
-            var fieldInfo = property.GetFieldInfo();
-
-            var modifierAttributes = fieldInfo.GetCustomAttributes(typeof(ModifierAttribute), true) as ModifierAttribute[];
-
-            if (modifierAttributes == null || modifierAttributes.Length == 0)
-            {
-                return new List<ModifierAttribute>();
-            }
-
-            return modifierAttributes.ToList();
-        }
 
         private List<ModifierAttribute> GetValidModifiers(List<ModifierAttribute> modifiers)
         {
