@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace EGG.Inspector
+namespace EGG.EasyInspector
 {
 	[CustomEditor(typeof(object), true)]
 	public partial class EasyInspector : Editor
@@ -21,7 +21,8 @@ namespace EGG.Inspector
 			{
 				if (iterator.depth > 0) continue;
 
-				var propertyField = new PropertyField(iterator);
+				//var propertyField = new PropertyField(iterator);
+				var propertyField = GeneratePropertyField(iterator);
 				container.Add(propertyField);
 			}
 

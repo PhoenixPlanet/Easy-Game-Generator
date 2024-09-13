@@ -4,6 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 using EGG.Attributes;
+using EGG.Utils;
 
 namespace EGG.EasyInspector
 {
@@ -19,19 +20,7 @@ namespace EGG.EasyInspector
             }
             else
             {
-                var label = (labelAttr as LabelAttribute).label;
-                if (label == null)
-                {
-                    return property.displayName;
-                }
-                else if (label.IsTextNullOrWhiteSpace)
-                {
-                    return label.GetStyledText(property.displayName);
-                }
-                else
-                {
-                    return label.StyledText;
-                }
+                return (labelAttr as LabelAttribute).GetLabelStringOf(property);
             }
         }
 

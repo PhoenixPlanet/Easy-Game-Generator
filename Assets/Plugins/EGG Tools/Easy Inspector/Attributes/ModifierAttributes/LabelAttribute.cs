@@ -1,9 +1,12 @@
 using EGG.EditorStyle;
+using UnityEditor;
+using UnityEditor.UIElements;
 
 namespace EGG.Attributes
 {
     public class LabelAttribute : ModifierAttribute
     {
+        public override ModifierType ModifierType => ModifierType.Label;
         public readonly EditorLabel label;
 
         public LabelAttribute(
@@ -35,6 +38,25 @@ namespace EGG.Attributes
             this.label = new EditorLabel(null, fontSize: fontSize);
         }
 
-        public override ModifierType ModifierType => ModifierType.Label;
+        public string GetLabelStringOf(SerializedProperty property)
+        {
+            if (label == null)
+            {
+                return property.displayName;
+            }
+            else if (label.IsTextNullOrWhiteSpace)
+            {
+                return label.GetStyledText(property.displayName);
+            }
+            else
+            {
+                return label.StyledText;
+            }
+        }
+
+        public override void ApplyModifier(SerializedProperty property, PropertyField propertyField)
+        {
+            propertyField.label = GetLabelStringOf(property);
+        }
     }
 }

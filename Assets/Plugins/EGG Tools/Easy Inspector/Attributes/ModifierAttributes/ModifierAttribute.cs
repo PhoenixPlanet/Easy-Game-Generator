@@ -1,4 +1,6 @@
 using System;
+using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace EGG.Attributes
@@ -18,5 +20,7 @@ namespace EGG.Attributes
         }
 
         public abstract ModifierType ModifierType { get; }
+
+        public abstract void ApplyModifier(SerializedProperty property, PropertyField propertyField);
     }
 }

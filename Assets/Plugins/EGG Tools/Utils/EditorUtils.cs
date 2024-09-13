@@ -17,10 +17,12 @@ namespace EGG.Utils
             FieldInfo fieldInfo = null;
             for (var i = 0; i < fieldPath.Length; i++)
             {
+                if (fieldPath[i] == "m_Script") continue;
+
                 var field = targetType.GetField(fieldPath[i], (BindingFlags)(-1));
                 if (field == null)
                 {
-                    Debug.LogError($"Field {fieldPath[i]} not found in {targetType}\nEntire path: {property.propertyPath}");
+                    EGGLog.LogEGGDebug($"Field {fieldPath[i]} not found in {targetType}\nEntire path: {property.propertyPath}");
                     break;
                 }
 

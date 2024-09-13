@@ -12,7 +12,7 @@ using EGG.Utils;
 using EGG.Attributes;
 using EGG.EditorStyle;
 
-namespace EGG.Inspector
+namespace EGG.EasyInspector
 {
 	public partial class EasyInspector : Editor
 	{

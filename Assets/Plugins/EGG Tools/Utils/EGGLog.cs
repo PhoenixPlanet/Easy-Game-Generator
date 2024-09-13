@@ -21,5 +21,11 @@ namespace EGG.Utils
             if (!LogEnabled) return;
             UnityEngine.Debug.LogError($"<color=red>{message}</color>");
         }
+
+        public static void LogEGGDebug(string message)
+        {
+            if (!LogEnabled) return;
+            UnityEngine.Debug.Log($"<color=blue>{message}</color>");
+        }
     }
 }
