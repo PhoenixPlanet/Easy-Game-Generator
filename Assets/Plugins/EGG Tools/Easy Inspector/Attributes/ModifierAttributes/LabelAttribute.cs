@@ -1,4 +1,5 @@
 using EGG.EditorStyle;
+using EGG.Inspector;
 using UnityEditor;
 using UnityEditor.UIElements;
 
@@ -54,9 +55,14 @@ namespace EGG.Attributes
             }
         }
 
-        public override void ApplyModifier(SerializedProperty property, PropertyField propertyField)
+        public override void ApplyModifier(SerializedProperty property, AbstractPropertyField propertyField)
         {
-            propertyField.label = GetLabelStringOf(property);
+            propertyField.SetLabel(GetLabelStringOf(property));
+        }
+
+        public override void ApplyModifier(SerializedProperty property, PropertyField objectField)
+        {
+            objectField.label = GetLabelStringOf(property);
         }
     }
 }

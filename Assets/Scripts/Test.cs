@@ -1,5 +1,4 @@
 using EGG.Attributes;
-using EGG.EasyInspector;
 using EGG.EditorStyle;
 using UnityEditor;
 using UnityEngine;

@@ -2,6 +2,9 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -210,6 +213,35 @@ namespace EGG.Utils
 			}
 
 			return fieldValue;
+		}
+
+		public static List<Type> FindDerivedTypesInAllAssemblies(this Type baseType)
+		{
+			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+			List<Type> derivedTypes = new List<Type>();
+
+			foreach (var assembly in assemblies)
+			{
+				try
+				{
+					var types = assembly.GetTypes()
+						.Where(t => baseType.IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface);
+					derivedTypes.AddRange(types);
+				}
+				catch (ReflectionTypeLoadException ex)
+				{
+					derivedTypes.AddRange(ex.Types.Where(t => t != null && baseType.IsAssignableFrom(t) && !t.IsAbstract));
+				}
+			}
+
+			return derivedTypes;
+		}
+
+		public static List<Type> FindDerivedTypesInAllAssemblies<T>()
+		{
+			Type baseType = typeof(T);
+			return FindDerivedTypesInAllAssemblies(baseType);
 		}
 	}
 }

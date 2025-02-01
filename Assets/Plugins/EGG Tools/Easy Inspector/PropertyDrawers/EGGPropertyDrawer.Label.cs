@@ -6,9 +6,9 @@ using UnityEngine.UIElements;
 using EGG.Attributes;
 using EGG.Utils;
 
-namespace EGG.EasyInspector
+namespace EGG.Inspector
 {
-    public abstract partial class EGGPropertyDrawer : PropertyDrawer
+    public abstract partial class EGGPropertyDrawer
     {
         protected string GetLabelString()
         {
@@ -16,11 +16,11 @@ namespace EGG.EasyInspector
 
             if (labelAttr == null)
             {
-                return property.displayName;
+                return _property.displayName;
             }
             else
             {
-                return (labelAttr as LabelAttribute).GetLabelStringOf(property);
+                return (labelAttr as LabelAttribute).GetLabelStringOf(_property);
             }
         }
 

@@ -7,7 +7,7 @@ using EGG.Attributes;
 using EGG.Utils;
 using EGG.EditorStyle;
 
-namespace EGG.EasyInspector
+namespace EGG.Inspector
 {
     public abstract class NestingPropertyDrawer : EGGPropertyDrawer
     {
@@ -18,33 +18,29 @@ namespace EGG.EasyInspector
         protected override VisualElement EGGPropertyGUI()
         {
             // Get the attribute
-            InlineAttribute inlineAttr = attribute as InlineAttribute;
+            InlineAttribute inlineAttr = _attribute as InlineAttribute;
 
             // Create the container
             _container = new VisualElement();
 
             // Draw the property field
-            _propertyField = new PropertyField(property);
-            _propertyField.BindProperty(property);
-            ApplyPropertyFieldStyle();
+            _propertyField = GetPropertyField();
+
+            // Add the property field to the content wrapper
+            _container.Add(_propertyField);
 
             // Draw the content
             _contentWrapper = new VisualElement();
-            Draw(property, inlineAttr);
             _container.Add(_contentWrapper);
+            Draw(_property, inlineAttr);
 
             // Add on value changed event
             _propertyField.RegisterValueChangeCallback(evt =>
             {
-                Draw(property, inlineAttr);
+                Draw(_property, inlineAttr);
             });
 
             return _container;
-        }
-
-        protected virtual void ApplyPropertyFieldStyle()
-        {
-            _propertyField.label = GetLabelString();
         }
 
         private void Draw(SerializedProperty property, InlineAttribute inlineAttr)
@@ -54,12 +50,8 @@ namespace EGG.EasyInspector
             if (!IsTargetType(property))
             {
                 _propertyField.style.position = Position.Relative;
-                _contentWrapper.Add(_propertyField);
                 return;
             }
-
-            // Add the property field to the content wrapper
-            _contentWrapper.Add(_propertyField);
 
             if (inlineAttr.foldout)
             {
@@ -79,7 +71,9 @@ namespace EGG.EasyInspector
                 foldout.SetMarginVertical(2);
 
                 _contentWrapper.Add(foldout);
-                foldout.PlaceBehind(_propertyField);
+                _contentWrapper.PlaceBehind(_propertyField);
+                //_propertyField.SetMarginLeft(StyleUtils.INDENT_SIZE);
+                //_propertyField.PlaceBehind(_contentWrapper);
             }
             else
             {

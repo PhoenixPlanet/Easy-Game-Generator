@@ -1,7 +1,6 @@
-using System;
+using EGG.Inspector;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 
 namespace EGG.Attributes
 {
@@ -9,7 +8,10 @@ namespace EGG.Attributes
     {
         None,
         Label,
-        LabelStyle
+        LabelStyle,
+        ShowIf,
+        HideIf,
+        ReadOnly,
     }
 
     public abstract class ModifierAttribute : EGGAttribute
@@ -21,6 +23,7 @@ namespace EGG.Attributes
 
         public abstract ModifierType ModifierType { get; }
 
-        public abstract void ApplyModifier(SerializedProperty property, PropertyField propertyField);
+        public abstract void ApplyModifier(SerializedProperty property, AbstractPropertyField propertyField);
+        public abstract void ApplyModifier(SerializedProperty property, PropertyField objectField);
     }
 }

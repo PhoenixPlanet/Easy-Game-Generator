@@ -1,8 +1,9 @@
+using EGG.EditorStyle;
 using EGG.Utils;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EGG.EditorStyle
+namespace EGG.Inspector
 {
     public class BoxHeader : VisualElement
     {
@@ -31,6 +32,15 @@ namespace EGG.EditorStyle
         public BoxHeader(string label, Texture icon = null) : this(new EditorLabel(label, TextStyle.Bold, FontSize.Medium), icon)
         {
 
+        }
+
+        public void AddHeaderButton(string text, System.Action onClick)
+        {
+            var button = new Button(onClick);
+            button.text = text;
+            Add(button);
+
+            button.style.alignSelf = Align.FlexEnd;
         }
     }
 }

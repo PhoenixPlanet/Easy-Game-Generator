@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,6 +8,7 @@ namespace EGG.EditorStyle
     public static class StyleUtils
     {
         public const int INDENT_SIZE = 15;
+        public const float PROPERTY_HEIGHT = 20f;
         public const float COLOR_DARKEN_FACTOR = 0.6f;
         public const float COLOR_LIGHTEN_FACTOR = 1.3f;
 
@@ -98,6 +100,38 @@ namespace EGG.EditorStyle
             label.style.fontSize = (int)FontSize.Medium;
             label.style.paddingTop = 10;
             label.style.paddingBottom = 5;
+        }
+
+        public static float GetLabelContextWidth(this VisualElement element)
+        {
+            VisualElement inspectorElement = null;
+            VisualElement contextWidthElement = null;
+
+            for (VisualElement visualElement = element.parent; visualElement != null; visualElement = visualElement.parent)
+            {
+                if (visualElement.ClassListContains(InspectorElement.ussClassName))
+                {
+                    inspectorElement = visualElement;
+                }
+
+                if (visualElement.ClassListContains("unity-inspector-main-container"))
+                {
+                    contextWidthElement = visualElement;
+                    break;
+                }
+            }
+
+            if (inspectorElement == null && contextWidthElement == null)
+            {
+                return EditorGUIUtility.labelWidth;
+            }
+            else
+            {
+                float contextWidth = (contextWidthElement ?? inspectorElement).resolvedStyle.width;
+                float a = Mathf.Ceil(contextWidth * 0.45f) - 40f;
+
+                return Mathf.Max(a, 123f);
+            }
         }
     }
 }

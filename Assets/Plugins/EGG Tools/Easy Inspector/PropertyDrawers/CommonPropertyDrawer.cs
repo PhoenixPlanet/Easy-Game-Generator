@@ -5,7 +5,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EGG.EasyInspector
+namespace EGG.Inspector
 {
     [CustomPropertyDrawer(typeof(EGGPropertyAttribute))]
     [CustomPropertyDrawer(typeof(EGGAttribute))]
@@ -13,7 +13,7 @@ namespace EGG.EasyInspector
     {
         protected override VisualElement EGGPropertyGUI()
         {
-            PropertyField propertyField = new PropertyField(property);
+            PropertyField propertyField = new PropertyField(_property);
             propertyField.label = GetLabelString();
 
             return propertyField;

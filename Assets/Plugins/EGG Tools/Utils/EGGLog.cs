@@ -1,3 +1,5 @@
+using UnityEngine.UIElements;
+
 namespace EGG.Utils
 {
     public static class EGGLog
@@ -26,6 +28,18 @@ namespace EGG.Utils
         {
             if (!LogEnabled) return;
             UnityEngine.Debug.Log($"<color=blue>{message}</color>");
+        }
+
+        public static void PrintHierarchy(VisualElement root, int depth = 0)
+        {
+            if (root == null) return;
+
+            UnityEngine.Debug.Log($"{new string('-', depth * 2)} {root.name} ({root.GetType().Name})");
+
+            foreach (var child in root.Children())
+            {
+                PrintHierarchy(child, depth + 1);
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 using EGG.Attributes;
 
@@ -9,35 +11,53 @@ namespace EGG.Utils
 {
     public static class AttributeUtils
     {
-        public static Dictionary<SerializedProperty, List<ModifierAttribute>> modifierAttributesCache = new();
-
-        public static List<ModifierAttribute> GetModifierAttributes(this SerializedProperty property)
+        // TODO: EditorUIElementsFactory로 옮겨서 fieldInfo, Attribute 등 정보를 캐시하는 것이 좋을 것 같음
+        public static List<T> GetAttributes<T>(this SerializedProperty property) where T : System.Attribute
         {
-            if (modifierAttributesCache.TryGetValue(property, out var cachedModifiers))
-            {
-                return cachedModifiers;
-            }
-
             var fieldInfo = property.GetFieldInfo();
-            if (fieldInfo == null) return new List<ModifierAttribute>();
+            if (fieldInfo == null) return new List<T>();
 
-            var modifierAttributes = fieldInfo.GetCustomAttributes(typeof(ModifierAttribute), true) as ModifierAttribute[];
+            var attributes = fieldInfo.GetCustomAttributes(typeof(T), true) as T[];
 
-            if (modifierAttributes == null || modifierAttributes.Length == 0)
+            if (attributes == null || attributes.Length == 0)
             {
-                modifierAttributesCache[property] = new List<ModifierAttribute>();
-                return new List<ModifierAttribute>();
+                return new List<T>();
             }
 
-            var attributesList = modifierAttributes.ToList();
-            modifierAttributesCache[property] = attributesList;
+            var attributesList = attributes.ToList();
 
             return attributesList;
         }
 
+        public static List<MethodAttributePair> GetEGGMethods(this SerializedProperty property)
+        {
+            if (property.IsArray()) return new();
+
+            Type targetType;
+            var obj = property.boxedValue;
+
+            if (obj == null)
+            {
+                var fieldInfo = property.GetFieldInfo();
+                if (fieldInfo == null) return new();
+
+                targetType = fieldInfo.FieldType;
+            }
+            else
+            {
+                targetType = obj.GetType();
+            }
+
+            var methodPairs = targetType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                .Where(m => m.GetCustomAttributes(typeof(EditorButtonAttribute), true).Length > 0)
+                .Select(m => new MethodAttributePair { method = m, attribute = m.GetCustomAttribute<EditorButtonAttribute>(true) });
+
+            return methodPairs.ToList();
+        }
+
         public static ModifierAttribute GetModifier(this SerializedProperty property, ModifierType modifierType)
         {
-            var modifierAttributes = property.GetModifierAttributes();
+            var modifierAttributes = property.GetAttributes<ModifierAttribute>();
 
             if (modifierAttributes == null || modifierAttributes.Count == 0) return null;
 
@@ -50,8 +70,16 @@ namespace EGG.Utils
             if (fieldInfo == null) return false;
 
             var eggPropertyAttrs = fieldInfo.GetCustomAttributes(typeof(EGGPropertyAttribute), true);
+            var eggMethods = fieldInfo.FieldType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                .Where(m => m.GetCustomAttributes(typeof(EditorButtonAttribute), true).Length > 0);
 
-            return eggPropertyAttrs != null && eggPropertyAttrs.Length > 0;
+            return (eggPropertyAttrs != null && eggPropertyAttrs.Length > 0) || eggMethods.Count() > 0;
         }
+    }
+
+    public record MethodAttributePair
+    {
+        public MethodInfo method;
+        public EditorButtonAttribute attribute;
     }
 }

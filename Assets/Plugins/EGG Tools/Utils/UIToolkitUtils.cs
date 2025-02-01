@@ -24,7 +24,7 @@ namespace EGG.Utils
         }
 
         #region Margin
-        public static void SetMargin(this VisualElement element, int top, int right, int bottom, int left)
+        public static void SetMargin(this VisualElement element, float top, float right, float bottom, float left)
         {
             element.style.marginTop = top;
             element.style.marginRight = right;
@@ -32,12 +32,12 @@ namespace EGG.Utils
             element.style.marginLeft = left;
         }
 
-        public static void SetMargin(this VisualElement element, int margin)
+        public static void SetMargin(this VisualElement element, float margin)
         {
             SetMargin(element, margin, margin, margin, margin);
         }
 
-        public static void SetMargin(this VisualElement element, Edge edge, int margin)
+        public static void SetMargin(this VisualElement element, Edge edge, float margin)
         {
             if (edge.HasFlag(Edge.Top))
             {
@@ -60,39 +60,39 @@ namespace EGG.Utils
             }
         }
 
-        public static void SetMarginVertical(this VisualElement element, int margin)
+        public static void SetMarginVertical(this VisualElement element, float margin)
         {
             SetMargin(element, Edge.Top | Edge.Bottom, margin);
         }
 
-        public static void SetMarginHorizontal(this VisualElement element, int margin)
+        public static void SetMarginHorizontal(this VisualElement element, float margin)
         {
             SetMargin(element, Edge.Left | Edge.Right, margin);
         }
 
-        public static void SetMarginLeft(this VisualElement element, int margin)
+        public static void SetMarginLeft(this VisualElement element, float margin)
         {
             element.style.marginLeft = margin;
         }
 
-        public static void SetMarginRight(this VisualElement element, int margin)
+        public static void SetMarginRight(this VisualElement element, float margin)
         {
             element.style.marginRight = margin;
         }
 
-        public static void SetMarginTop(this VisualElement element, int margin)
+        public static void SetMarginTop(this VisualElement element, float margin)
         {
             element.style.marginTop = margin;
         }
 
-        public static void SetMarginBottom(this VisualElement element, int margin)
+        public static void SetMarginBottom(this VisualElement element, float margin)
         {
             element.style.marginBottom = margin;
         }
         #endregion
 
         #region Padding
-        public static void SetPadding(this VisualElement element, int top, int right, int bottom, int left)
+        public static void SetPadding(this VisualElement element, float top, float right, float bottom, float left)
         {
             element.style.paddingTop = top;
             element.style.paddingRight = right;
@@ -100,12 +100,12 @@ namespace EGG.Utils
             element.style.paddingLeft = left;
         }
 
-        public static void SetPadding(this VisualElement element, int padding)
+        public static void SetPadding(this VisualElement element, float padding)
         {
             SetPadding(element, padding, padding, padding, padding);
         }
 
-        public static void SetPadding(this VisualElement element, Edge edge, int padding)
+        public static void SetPadding(this VisualElement element, Edge edge, float padding)
         {
             if (edge.HasFlag(Edge.Top))
             {
@@ -128,12 +128,12 @@ namespace EGG.Utils
             }
         }
 
-        public static void SetPaddingVertical(this VisualElement element, int padding)
+        public static void SetPaddingVertical(this VisualElement element, float padding)
         {
             SetPadding(element, Edge.Top | Edge.Bottom, padding);
         }
 
-        public static void SetPaddingHorizontal(this VisualElement element, int padding)
+        public static void SetPaddingHorizontal(this VisualElement element, float padding)
         {
             SetPadding(element, Edge.Left | Edge.Right, padding);
         }
@@ -145,7 +145,7 @@ namespace EGG.Utils
             element.style.position = position;
         }
 
-        public static void SetPosition(this VisualElement element, Position position, int top, int right, int bottom, int left)
+        public static void SetPosition(this VisualElement element, Position position, float top, float right, float bottom, float left)
         {
             SetPosition(element, position);
             element.style.top = top;
@@ -154,7 +154,7 @@ namespace EGG.Utils
             element.style.left = left;
         }
 
-        public static void SetPosition(this VisualElement element, Edge edge, int value)
+        public static void SetPosition(this VisualElement element, Edge edge, float value)
         {
             if (edge.HasFlag(Edge.Top))
             {
@@ -177,33 +177,33 @@ namespace EGG.Utils
             }
         }
 
-        public static void SetPositionTop(this VisualElement element, int top)
+        public static void SetPositionTop(this VisualElement element, float top)
         {
             element.style.top = top;
         }
 
-        public static void SetPositionRight(this VisualElement element, int right)
+        public static void SetPositionRight(this VisualElement element, float right)
         {
             element.style.right = right;
         }
 
-        public static void SetPositionBottom(this VisualElement element, int bottom)
+        public static void SetPositionBottom(this VisualElement element, float bottom)
         {
             element.style.bottom = bottom;
         }
 
-        public static void SetPositionLeft(this VisualElement element, int left)
+        public static void SetPositionLeft(this VisualElement element, float left)
         {
             element.style.left = left;
         }
 
-        public static void SetPositionHorizontal(this VisualElement element, int left, int right)
+        public static void SetPositionHorizontal(this VisualElement element, float left, float right)
         {
             element.style.left = left;
             element.style.right = right;
         }
 
-        public static void SetPositionVertical(this VisualElement element, int top, int bottom)
+        public static void SetPositionVertical(this VisualElement element, float top, float bottom)
         {
             element.style.top = top;
             element.style.bottom = bottom;
@@ -211,7 +211,7 @@ namespace EGG.Utils
         #endregion
 
         #region Border
-        public static void SetBorder(this VisualElement element, int width, Color color)
+        public static void SetBorder(this VisualElement element, float width, Color color)
         {
             SetBorderTop(element, width, color);
             SetBorderRight(element, width, color);
@@ -219,7 +219,7 @@ namespace EGG.Utils
             SetBorderLeft(element, width, color);
         }
 
-        public static void SetBorder(this VisualElement element, Edge edge, int width)
+        public static void SetBorder(this VisualElement element, Edge edge, float width)
         {
             if (edge.HasFlag(Edge.Top))
             {
@@ -242,43 +242,43 @@ namespace EGG.Utils
             }
         }
 
-        public static void SetBorderTop(this VisualElement element, int width, Color color)
+        public static void SetBorderTop(this VisualElement element, float width, Color color)
         {
             element.style.borderTopWidth = width;
             element.style.borderTopColor = color;
         }
 
-        public static void SetBorderRight(this VisualElement element, int width, Color color)
+        public static void SetBorderRight(this VisualElement element, float width, Color color)
         {
             element.style.borderRightWidth = width;
             element.style.borderRightColor = color;
         }
 
-        public static void SetBorderBottom(this VisualElement element, int width, Color color)
+        public static void SetBorderBottom(this VisualElement element, float width, Color color)
         {
             element.style.borderBottomWidth = width;
             element.style.borderBottomColor = color;
         }
 
-        public static void SetBorderLeft(this VisualElement element, int width, Color color)
+        public static void SetBorderLeft(this VisualElement element, float width, Color color)
         {
             element.style.borderLeftWidth = width;
             element.style.borderLeftColor = color;
         }
 
-        public static void SetBorderHorizontal(this VisualElement element, int width, Color color)
+        public static void SetBorderHorizontal(this VisualElement element, float width, Color color)
         {
             SetBorderLeft(element, width, color);
             SetBorderRight(element, width, color);
         }
 
-        public static void SetBorderVertical(this VisualElement element, int width, Color color)
+        public static void SetBorderVertical(this VisualElement element, float width, Color color)
         {
             SetBorderTop(element, width, color);
             SetBorderBottom(element, width, color);
         }
 
-        public static void SetBorderRadius(this VisualElement element, int radius)
+        public static void SetBorderRadius(this VisualElement element, float radius)
         {
             element.style.borderTopLeftRadius = radius;
             element.style.borderTopRightRadius = radius;
@@ -286,7 +286,7 @@ namespace EGG.Utils
             element.style.borderBottomRightRadius = radius;
         }
 
-        public static void SetBorderRadius(this VisualElement element, int topLeft, int topRight, int bottomRight, int bottomLeft)
+        public static void SetBorderRadius(this VisualElement element, float topLeft, float topRight, float bottomRight, float bottomLeft)
         {
             element.style.borderTopLeftRadius = topLeft;
             element.style.borderTopRightRadius = topRight;
@@ -294,7 +294,7 @@ namespace EGG.Utils
             element.style.borderBottomLeftRadius = bottomLeft;
         }
 
-        public static void SetBorderRadius(this VisualElement element, Corner corner, int radius)
+        public static void SetBorderRadius(this VisualElement element, Corner corner, float radius)
         {
             if (corner.HasFlag(Corner.TopLeft))
             {

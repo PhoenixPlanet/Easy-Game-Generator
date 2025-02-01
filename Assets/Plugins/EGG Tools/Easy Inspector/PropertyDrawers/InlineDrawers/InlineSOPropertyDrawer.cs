@@ -7,9 +7,9 @@ using EGG.Attributes;
 using EGG.EditorStyle;
 using EGG.Utils;
 
-namespace EGG.EasyInspector
+namespace EGG.Inspector
 {
-    [CustomPropertyDrawer(typeof(InlineSOAttribute))]
+    [BindEGGPropertyAttribute(typeof(InlineSOAttribute))]
     public class InlineSOPropertyDrawer : NestingPropertyDrawer
     {
         protected override bool IsTargetType(SerializedProperty property)
@@ -24,8 +24,14 @@ namespace EGG.EasyInspector
 
         protected override VisualElement MainContent(SerializedProperty property)
         {
-            var contentBox = new ContentBox(GetLabelString());
-            contentBox.SetMarginVertical(5);
+            if (property.serializedObject.targetObject.GetType().Is(property.objectReferenceValue.GetType()))
+            {
+                return new Label("<color=red>Cannot inline same type of ScriptableObject");
+            }
+
+            var inlineAttr = _attribute as InlineSOAttribute;
+            var contentBox = new ContentBox(GetLabelString(), backgroundColor: inlineAttr.color);
+            contentBox.SetMargin(5);
             contentBox.HideHeader();
 
             var inspectorElement = new InspectorElement(property.objectReferenceValue as ScriptableObject);

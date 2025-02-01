@@ -4,9 +4,9 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EGG.EasyInspector
+namespace EGG.Inspector
 {
-    [CustomPropertyDrawer(typeof(PreviewAttribute))]
+    [BindEGGPropertyAttribute(typeof(PreviewAttribute))]
     public class PreviewDrawer : EGGPropertyDrawer
     {
         PreviewAttribute _previewAttribute;
@@ -15,15 +15,16 @@ namespace EGG.EasyInspector
 
         private VisualElement _wrapper;
         private VisualElement _preview;
+        private PropertyField _propertyField;
 
         protected override VisualElement EGGPropertyGUI()
         {
             // Get the attribute
-            _previewAttribute = attribute as PreviewAttribute;
+            _previewAttribute = _attribute as PreviewAttribute;
 
             InitElements();
 
-            _wrapper.Add(CreatePropertyField());
+            _wrapper.Add(_propertyField);
             _wrapper.Add(_preview);
 
             var previewIMGUI = CreatePreview();
@@ -51,19 +52,14 @@ namespace EGG.EasyInspector
             {
                 _preview.Clear();
             }
-        }
 
-        private PropertyField CreatePropertyField()
-        {
-            var propertyField = new PropertyField(property);
-            propertyField.BindProperty(property);
-            propertyField.label = GetLabelString();
+            if (_propertyField == null)
+            {
+                _propertyField = GetPropertyField();
+                _propertyField.RegisterCallback<SerializedPropertyChangeEvent>(OnPropertyFieldChanged);
+            }
 
-            _targetObject = property.objectReferenceValue;
-
-            propertyField.RegisterCallback<SerializedPropertyChangeEvent>(OnPropertyFieldChanged);
-
-            return propertyField;
+            _targetObject = _property.objectReferenceValue;
         }
 
         private IMGUIContainer CreatePreview()

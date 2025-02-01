@@ -11,9 +11,9 @@ using EGG.Attributes;
 using EGG.Utils;
 using EGG.EditorStyle;
 
-namespace EGG.EasyInspector
+namespace EGG.Inspector
 {
-    [CustomPropertyDrawer(typeof(InlineGOAttribute))]
+    [BindEGGPropertyAttribute(typeof(InlineGOAttribute))]
     public class InlineGOPropertyDrawer : NestingPropertyDrawer
     {
         protected override bool IsTargetType(SerializedProperty property)
@@ -29,7 +29,7 @@ namespace EGG.EasyInspector
         protected override VisualElement MainContent(SerializedProperty property)
         {
             var targetObject = property.objectReferenceValue as GameObject;
-            var inlineGOAttribute = attribute as InlineGOAttribute;
+            var inlineGOAttribute = _attribute as InlineGOAttribute;
 
             // If no GameObject is selected
             if (targetObject == null)
@@ -76,8 +76,8 @@ namespace EGG.EasyInspector
 
                 var icon = EditorGUIUtility.ObjectContent(component, component.GetType());
 
-                var contentBox = new ContentBox(icon.text, icon.image);
-                contentBox.SetMarginVertical(5);
+                var contentBox = new ContentBox(icon.text, icon.image, inlineGOAttribute.color);
+                contentBox.SetMargin(5);
 
                 var inspectorElement = new InspectorElement(component);
                 contentBox.Add(inspectorElement);
